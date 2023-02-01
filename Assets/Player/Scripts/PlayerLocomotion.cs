@@ -11,14 +11,13 @@ public class PlayerLocomotion : MonoBehaviour
 
     public float speed = 6.0f;
     public float jumpSpeed = 10f;
-    public float mouseSensitivty = 2f;
+    public float mouseSensitivity = 2f;
     public float gravity = 20.0f;
     public float lookUpClamp = -30f;
     public float lookDownClamp = 60f;
 
     private Vector3 moveDirection = Vector3.zero;
     float rotateX, rotateY;
-
 
     void Start()
     {
@@ -29,25 +28,36 @@ public class PlayerLocomotion : MonoBehaviour
 
     void Update()
     {
-        Locomotion(); 
+        Locomotion();
         RotateAndLook();
+
+        PerspectiveCheck();
     }
 
     void SetCurrentCamera()
     {
-        playerContainer = gameObject.transform.Find("Container3P");
-        cameraContainer = playerContainer.transform.Find("Camera3PContainer");
+       
+        SwitchPerspective switchPerspective = GetComponent<SwitchPerspective>();
+        if (switchPerspective.GetPerspective() == SwitchPerspective.Perspective.First)
+        {
+            playerContainer = gameObject.transform.Find("Container1P");
+            cameraContainer = playerContainer.transform.Find("Camera1PContainer");
+        }
+        else
+        {
+            playerContainer = gameObject.transform.Find("Container3P");
+            cameraContainer = playerContainer.transform.Find("Camera3PContainer");
+        }
 
     }
 
     void Locomotion()
     {
-        if (characterController.isGrounded) // When grounded, set the y-axis to zero (to ignore it)
+        if (characterController.isGrounded) // When grounded, set y-axis to zero (to ignore it)
         {
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
             moveDirection = transform.TransformDirection(moveDirection);
             moveDirection *= speed;
-
             if (Input.GetButton("Jump"))
             {
                 moveDirection.y = jumpSpeed;
@@ -59,28 +69,47 @@ public class PlayerLocomotion : MonoBehaviour
             }
             else //if (Input.GetKeyUp(KeyCode.C))
             {
-                characterController.height = 1.8f;
-                characterController.center = new Vector3(0f, 0.9f, 0f);
+                characterController.height = 2f;
+                characterController.center = new Vector3(0f, 1f, 0f);
             }
-
-            //Todo Jumping/Crouching
         }
 
         moveDirection.y -= gravity * Time.deltaTime;
         characterController.Move(moveDirection * Time.deltaTime);
 
-
     }
 
     void RotateAndLook()
     {
-        rotateX = Input.GetAxis("Mouse X") * mouseSensitivty;
-        rotateY -= Input.GetAxis("Mouse Y") * mouseSensitivty;
+        rotateX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        rotateY -= Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        transform.Rotate(0f, rotateX, 0f);
         rotateY = Mathf.Clamp(rotateY, lookUpClamp, lookDownClamp);
 
-        cameraContainer.transform.localRotation = Quaternion.Euler(rotateY, 0f, 0f);
+        transform.Rotate(0f, rotateX, 0f);
 
+        cameraContainer.transform.localRotation = Quaternion.Euler(rotateY, 0f, 0f);
+    }
+
+    void PerspectiveCheck()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            SwitchPerspective switchPerspective = GetComponent<SwitchPerspective>();
+
+            if (switchPerspective != null)
+            {
+                if (switchPerspective.GetPerspective() == SwitchPerspective.Perspective.Third)
+                {
+                    switchPerspective.SetPerspective(SwitchPerspective.Perspective.First);
+                }
+                else
+                {
+                    switchPerspective.SetPerspective(SwitchPerspective.Perspective.First);
+                }
+
+                SetCurrentCamera();
+            }
+        }
     }
 }

@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class SwitchPerspective : MonoBehaviour
 {
-
     public enum Perspective
     {
         First,
-
         Third
     };
 
@@ -19,30 +17,29 @@ public class SwitchPerspective : MonoBehaviour
     };
 
     [SerializeField]
-    Perspective perspective = Perspective.Third;
+    private Perspective perspective = Perspective.Third;
 
     Dictionary<Perspective, ContainerName> containerNameByPerspective = new Dictionary<Perspective, ContainerName>();
     Dictionary<ContainerName, Transform> containerByName = new Dictionary<ContainerName, Transform>();
+
     void Start()
     {
-        InitialiseContainer();
-        PerspectiveSwitch();    
-
+        InitialiseContainers();
+        PerspectiveSwitch(perspective);
     }
 
-    void InitialiseContainer()
+    void InitialiseContainers()
     {
         containerNameByPerspective.Add(Perspective.First, ContainerName.Container1P);
         containerNameByPerspective.Add(Perspective.Third, ContainerName.Container3P);
 
         containerByName.Add(ContainerName.Container1P, gameObject.transform.Find(ContainerName.Container1P.ToString()));
         containerByName.Add(ContainerName.Container3P, gameObject.transform.Find(ContainerName.Container3P.ToString()));
-
     }
 
     void DisableAllContainers()
     {
-        foreach(KeyValuePair<ContainerName, Transform> container in containerByName)
+        foreach (KeyValuePair<ContainerName, Transform> container in containerByName)
         {
             container.Value.gameObject.SetActive(false);
         }
@@ -51,16 +48,16 @@ public class SwitchPerspective : MonoBehaviour
     void ActivatePerspective(Perspective perspective)
     {
         ContainerName container;
-        if(containerNameByPerspective.TryGetValue(perspective, out container))
+        if (containerNameByPerspective.TryGetValue(perspective, out container))
         {
-            if(containerByName.TryGetValue(container, out Transform transform))
+            if (containerByName.TryGetValue(container, out Transform transform))
             {
                 transform.gameObject.SetActive(true);
             }
         }
     }
 
-    public void PerspectiveSwitch(Perspective perspective)
+    void PerspectiveSwitch(Perspective perspective)
     {
         DisableAllContainers();
         ActivatePerspective(perspective);
@@ -79,6 +76,7 @@ public class SwitchPerspective : MonoBehaviour
         }
 
         this.perspective = perspective;
+
         PerspectiveSwitch(perspective);
     }
 }
