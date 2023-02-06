@@ -13,8 +13,8 @@ public class PlayerLocomotion : MonoBehaviour
     public float jumpSpeed = 10f;
     public float mouseSensitivity = 2f;
     public float gravity = 20.0f;
-    public float lookUpClamp = -10f;
-    public float lookDownClamp = 10f;
+    public float lookUpClamp = -30f;
+    public float lookDownClamp = 45f;
 
     private Vector3 moveDirection = Vector3.zero;
     float rotateX, rotateY;

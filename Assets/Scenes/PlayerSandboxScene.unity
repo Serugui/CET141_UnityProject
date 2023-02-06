@@ -178,7 +178,7 @@ MonoBehaviour:
   mouseSensitivity: 2
   gravity: 20
   lookUpClamp: -30
-  lookDownClamp: 60
+  lookDownClamp: 45
 --- !u!143 &18780963
 CharacterController:
   m_ObjectHideFlags: 0
