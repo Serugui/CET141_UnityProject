@@ -13,8 +13,8 @@ public class PlayerLocomotion : MonoBehaviour
     public float jumpSpeed = 10f;
     public float mouseSensitivity = 2f;
     public float gravity = 20.0f;
-    public float lookUpClamp = -30f;
-    public float lookDownClamp = 60f;
+    public float lookUpClamp = -10f;
+    public float lookDownClamp = 10f;
 
     private Vector3 moveDirection = Vector3.zero;
     float rotateX, rotateY;
@@ -32,6 +32,7 @@ public class PlayerLocomotion : MonoBehaviour
         RotateAndLook();
 
         PerspectiveCheck();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void SetCurrentCamera()
@@ -62,7 +63,7 @@ public class PlayerLocomotion : MonoBehaviour
             {
                 moveDirection.y = jumpSpeed;
             }
-            if (Input.GetKey(KeyCode.C))
+            if (Input.GetKey(KeyCode.LeftShift))
             {
                 characterController.height = 0.65f;
                 characterController.center = new Vector3(0f, 0.5f, 0f);
@@ -105,7 +106,7 @@ public class PlayerLocomotion : MonoBehaviour
                 }
                 else
                 {
-                    switchPerspective.SetPerspective(SwitchPerspective.Perspective.First);
+                    switchPerspective.SetPerspective(SwitchPerspective.Perspective.Third);
                 }
 
                 SetCurrentCamera();
