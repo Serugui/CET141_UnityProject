@@ -9,7 +9,7 @@ public class HealthManager : MonoBehaviour
 
 
 
-    void Hit(float rawDamage)
+   public void Hit(float rawDamage)
     {
         hitPoints -= rawDamage;
         Debug.Log("OUCH: " + hitPoints.ToString());

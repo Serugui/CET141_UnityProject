@@ -20,14 +20,14 @@ public class Item : MonoBehaviour
     string description;
 
     [SerializeField]
-    float weight = -0;
+    float weight = 0;
     [SerializeField]
     int quantity = 1;
     [SerializeField]
     int maxStackableQuantity = 1;// for bundles of items, such as arrows or coins
 
     [SerializeField]
-    bool isStorable = false; //if false, itme will be used on pickup
+    bool isStorable = false; //if false, item will be used on pickup
     [SerializeField]
     bool isConsumable = true; // if true, item wil be destroyed (or quantity reduced) when used
 
