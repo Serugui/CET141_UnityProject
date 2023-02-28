@@ -28,11 +28,14 @@ public class PlayerLocomotion : MonoBehaviour
 
     void Update()
     {
-        Locomotion();
-        RotateAndLook();
-
-        PerspectiveCheck();
-        Cursor.lockState = CursorLockMode.Locked;
+        if (!MenuController.IsGamePaused)
+        {
+            Locomotion();
+            RotateAndLook();
+            PerspectiveCheck();
+        }
+        
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     void SetCurrentCamera()
@@ -82,8 +85,8 @@ public class PlayerLocomotion : MonoBehaviour
 
     void RotateAndLook()
     {
-        rotateX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        rotateY -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+        rotateX = Input.GetAxis("Mouse X") * mouseSensitivity *Time.deltaTime;
+        rotateY -= Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
         rotateY = Mathf.Clamp(rotateY, lookUpClamp, lookDownClamp);
 
