@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,35 +8,40 @@ public class HealthManager : MonoBehaviour
 
     public Slider healthSlider;
 
-    private void Start()
+    void Start()
     {
         hitPoints = maxHitPoints;
     }
 
-
-    public void Hit(float rawDamage)
+    void Hit(float rawDamage)
     {
         hitPoints -= rawDamage;
         SetHealthSlider();
+
         Debug.Log("OUCH: " + hitPoints.ToString());
 
-        if(hitPoints <= 0)
+        if (hitPoints <= 0)
         {
-            //TODO: Game Over
-            Debug.Log("GAME OVER - YOU DIED");
+            OnDeath();
         }
     }
 
     void SetHealthSlider()
     {
-        if(healthSlider != null)
+        if (healthSlider != null)
         {
-            healthSlider.value = NormalisedHitPoints();
+            healthSlider.value = NormalisedHitPoint();
         }
     }
 
-    float NormalisedHitPoints()
+    float NormalisedHitPoint()
     {
         return hitPoints / maxHitPoints;
+    }
+
+    void OnDeath()
+    {
+        Debug.Log("TODO: GAME OVER - YOU DIED");
+        GameManager.Instance.GameOver();
     }
 }

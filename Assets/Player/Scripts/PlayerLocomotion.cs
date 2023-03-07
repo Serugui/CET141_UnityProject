@@ -22,8 +22,12 @@ public class PlayerLocomotion : MonoBehaviour
     void Start()
     {
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        GameManager.ResetGame();
+
         characterController = GetComponent<CharacterController>();
         SetCurrentCamera();
+        
     }
 
     void Update()
@@ -35,7 +39,7 @@ public class PlayerLocomotion : MonoBehaviour
             PerspectiveCheck();
         }
         
-        Cursor.lockState = CursorLockMode.Confined;
+        
     }
 
     void SetCurrentCamera()
