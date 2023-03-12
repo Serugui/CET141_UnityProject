@@ -25,6 +25,9 @@ public class Item : MonoBehaviour
     int quantity = 1;
     [SerializeField]
     int maxStackableQuantity = 1;// for bundles of items, such as arrows or coins
+    [SerializeField]
+    int pointValue = 1;
+    
 
     [SerializeField]
     bool isStorable = false; //if false, item will be used on pickup
@@ -93,6 +96,9 @@ public class Item : MonoBehaviour
             {
                 Destroy(gameObject);
             }
+
+            GameManager.IncrementScore(pointValue);
+
         }
     }
 }

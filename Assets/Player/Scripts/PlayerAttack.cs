@@ -11,7 +11,10 @@ public class PlayerAttack : MonoBehaviour
     float rawDamage = 10f;
     void Update()
     {
-        FireWeapon();
+        if (!MenuController.IsGamePaused)
+        {
+            FireWeapon();
+        }
     }
 
     void FireWeapon()
